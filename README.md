@@ -11,3 +11,5 @@ Wątki reprezentujące poszczególnych graczy będą odpowiedzialne za sterowani
 Będą dostępne różne zadania, jak naprawa systemów, czy przeszukiwanie stacji - gracze muszą współpracować, aby je ukończyć. Wątki graczy mogą być synchronizowane, aby uniknąć kolizji podczas wykonywania tych samych zadań.
 3. Wykrywanie i eliminacja intruzów
 Odbywać będą się debaty i głosowania na potencjalnych intruzów. Gracze mogą próbować odkryć tożsamość intruzów na podstawie ich działań lub zgromadzonych dowodów. Wątki będą odpowiedzialne za gromadzenie i wymianę informacji, a synchronizacja pomoże uniknąć konfliktów w trakcie analizy danych.
+
+Autor: Kinga Foksińska, nr 255591, grupa: wtorek nieparzysty 9:15
