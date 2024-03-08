@@ -1,6 +1,8 @@
 # Systemy-operacyjne-2-projekt
 Projekt realizowany w ramach kursu Systemy operacyjne 2.
+
 Temat projektu: Symulator gry opartej na koncepcji "Among us"
+
 Opis: Symulacja gry, w której gracze współpracują przy rozwiązywaniu zadań, jednocześnie starając się odkryć i wyeliminować oszusta.
 Podstawowe założenia:
 1. Zarządzanie graczami
