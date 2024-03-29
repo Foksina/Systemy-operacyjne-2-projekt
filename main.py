@@ -4,102 +4,88 @@ import time
 import queue
 
 class Player(threading.Thread):
-    def __init__(self, name, tasks, task_queue, discussions, voting, tasks_completed, players):
+    def __init__(self, name, task_queue, players, map_size):
         super(Player, self).__init__()
         self.name = name
-        self.tasks = tasks
         self.task_queue = task_queue
-        self.discussions = discussions
-        self.voting = voting
-        self.tasks_completed = tasks_completed
         self.players = players
-        self.is_imposter = False
-
+        self.map_size = map_size
+        self.position = (random.randint(0, map_size[0] - 1), random.randint(0, map_size[1] - 1))
+        self.is_impostor = False
+    
     def run(self):
-        while not self.task_queue.empty():
-            if not self.is_imposter:
+        if not self.is_impostor:
+            while not self.task_queue.empty():
                 task = self.task_queue.get()
-                print(f"{self.name} is performing task: {task}")
+                print(f"{self.name} is moving to task location: {task['location']}")
+                self.move_to(task['location'])
+                print(f"{self.name} is performing task: {task['name']}")
                 time.sleep(random.randint(1, 5))  # Time to perform the task
-                print(f"{self.name} has completed task: {task}")
+                print(f"{self.name} has completed task: {task['name']}")
                 self.task_queue.task_done()
-                self.tasks_completed[0] += 1
                 time.sleep(1)  # Time to "rest"
-            else:
-                # Imposter has a chance to kill another player
+            print(f"{self.name} has completed all tasks and is waiting for voting...")
+        else:
+            # Imposter has a chance to kill another player or sabotage a task
+            action = random.choice(["kill", "sabotage"])
+            if action == "kill":
                 self.kill()
+            else:
+                self.sabotage()
 
-                # Player participates in discussions and voting
-                self.discuss()
-                self.vote()
-
-        print(f"{self.name} has completed all tasks and is waiting for voting...")
+    def move_to(self, target):
+        while self.position != target:
+            x, y = self.position
+            tx, ty = target
+            if x < tx:
+                x += 1
+            elif x > tx:
+                x -= 1
+            if y < ty:
+                y += 1
+            elif y > ty:
+                y -= 1
+            self.position = (x, y)
+            time.sleep(1)  # Time to move
 
     def kill(self):
-        target = random.choice(self.players)
-        if target != self:
-            print(f"{self.name} is killing {target.name}")
-            time.sleep(1)
-            self.players.remove(target)
-            print(f"{target.name} has been killed!")
+        target = random.choice([player for player in self.players if player != self])
+        print(f"{self.name} is moving to kill {target.name} at location: {target.position}")
+        self.move_to(target.position)
+        print(f"{self.name} is killing {target.name} at location: {target.position}")
+        time.sleep(1)
+        self.players.remove(target)
+        print(f"{target.name} has been killed!")
 
-    def discuss(self):
-        print(f"{self.name} is discussing...")
-        time.sleep(random.randint(1, 3))  # Time for discussion
-
-    def vote(self):
-        # Randomly decide whether to skip voting or not
-        if random.random() < 0.5:
-            print(f"{self.name} is skipping voting")
-        else:
-            suspect = random.choice(self.discussions)
-            print(f"{self.name} is voting for {suspect}")
-            self.voting.append(suspect)
-
-class Imposter(Player):
-    def __init__(self, name, tasks, task_queue, discussions, voting, tasks_completed, players):
-        super(Imposter, self).__init__(name, tasks, task_queue, discussions, voting, tasks_completed, players)
-        self.is_imposter = True
-
-    def run(self):
-        while not self.task_queue.empty():
-            task = self.task_queue.get()
-            print(f"{self.name} is performing task: {task}")
-            time.sleep(random.randint(1, 5))  # Time to perform the task
-            print(f"{self.name} has completed task: {task}")
-            self.task_queue.task_done()
-            self.tasks_completed[0] += 1
-            time.sleep(1)  # Time to "rest"
-
-            # Imposter has a chance to kill another player
-            self.kill()
-
-            # Player participates in discussions and voting
-            self.discuss()
-            self.vote()
-
-        print(f"{self.name} has completed all tasks and is waiting for voting...")
+    def sabotage(self):
+        sabotaged_task = self.task_queue.get()
+        print(f"{self.name} is moving to task location: {sabotaged_task['location']}")
+        self.move_to(sabotaged_task['location'])
+        print(f"{self.name} is sabotaging task: {sabotaged_task}")
+        time.sleep(random.randint(1, 5))  # Time to sabotage
+        print(f"{self.name} has sabotaged task: {sabotaged_task}")
 
 def main():
-    tasks = ["Repair wiring", "Empty garbage", "Fix lights", "Download data"]
+    map_size = (20, 20)
+    tasks = [{"name": "Repair wiring", "location": (random.randint(0, map_size[0]), random.randint(0, map_size[1]))},
+             {"name": "Empty garbage", "location": (random.randint(0, map_size[0]), random.randint(0, map_size[1]))},
+             {"name": "Fix lights", "location": (random.randint(0, map_size[0]), random.randint(0, map_size[1]))},
+             {"name": "Download data", "location": (random.randint(0, map_size[0]), random.randint(0, map_size[1]))}]
     task_queue = queue.Queue(maxsize=10)  # Queue for tasks
     for task in tasks:
         task_queue.put(task)
-
-    discussions = ["Player-1", "Player-2", "Player-3", "Player-4", "Player-5", "Player-6"]
-    voting = []
-    tasks_completed = [0]  # Counter for completed tasks
 
     players = []
 
     # Creating players
     for i in range(6):
         name = f"Player-{i+1}"
-        if i == 0:  # The first player becomes an imposter
-            player = Imposter(name, tasks, task_queue, discussions, voting, tasks_completed, players)
-        else:
-            player = Player(name, tasks, task_queue, discussions, voting, tasks_completed, players)
+        player = Player(name, task_queue, players, map_size)
         players.append(player)
+
+    # Imposter
+    imposter_index = random.randint(0, len(players) - 1)
+    players[imposter_index].is_impostor = True
 
     # Starting player threads
     for player in players:
@@ -107,40 +93,8 @@ def main():
 
     # Waiting for all tasks to be completed
     task_queue.join()
-
-    # Voting results
-    print("\nVoting Results:")
-    for player in players:
-        print(f"{player.name}: {voting.count(player.name)} votes")
-
-    # Eliminate the player with the most votes
-    if voting:
-        eliminated_player = max(set(voting), key=voting.count)
-        print(f"\n{eliminated_player} has been eliminated!")
-
-    # End simulation if all tasks are completed or all non-imposter players are eliminated
-    if tasks_completed[0] == len(tasks) or all(player.is_imposter for player in players[1:]):
-        print("\nSimulation ended.")
-    else:
-        # Continue simulation with remaining players
-        main()
-
+    
 if __name__ == "__main__":
     main()
 
-
-'''
-Zadania zależne od siebie: 
-Wprowadź zadania, które wymagają współpracy wielu graczy do ukończenia. 
-Na przykład, jeden gracz może musieć włączyć zasilanie, 
-a inny musi ustawiać przełączniki, aby to osiągnąć.
-
-Interaktywne zadania: 
-Dodaj zadania, które wymagają interakcji z graczami, 
-takie jak przekazywanie przedmiotów lub 
-wykonywanie określonych czynności w określonym czasie.
-
-Szczegółowe raportowanie: 
-Utwórz mechanizm raportowania, który umożliwia graczom 
-raportowanie podejrzanych zachowań lub zdarzeń, które mogą wskazywać na obecność intruzów.
-'''
+        
