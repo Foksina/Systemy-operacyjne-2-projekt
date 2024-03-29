@@ -74,19 +74,30 @@ def main():
     task_queue = queue.Queue(maxsize=10)  # Queue for tasks
     for task in tasks:
         task_queue.put(task)
+    
+    sabotage_tasks = [{"name": "xxxx", "location": (random.randint(0, map_size[0]), random.randint(0, map_size[1]))},
+             {"name": "yyyy", "location": (random.randint(0, map_size[0]), random.randint(0, map_size[1]))},
+             {"name": "zzz", "location": (random.randint(0, map_size[0]), random.randint(0, map_size[1]))},]
+    sabotage_task_queue = queue.Queue(maxsize=10)
+    for task in sabotage_tasks:
+        sabotage_task_queue.put(task)
 
     players = []
-
-    # Creating players
-    for i in range(6):
-        name = f"Player-{i+1}"
-        player = Player(name, task_queue, players, map_size)
-        players.append(player)
+    number_of_players = 6
 
     # Imposter
-    imposter_index = random.randint(0, len(players) - 1)
-    players[imposter_index].is_impostor = True
+    impostor_index = random.randint(0, number_of_players - 1)
 
+    # Creating players
+    for i in range(number_of_players):
+        name = f"Player-{i+1}" 
+        if i != impostor_index: 
+            player = Player(name, task_queue, players, map_size)
+        else:
+            player = Player(name, sabotage_task_queue, players, map_size)
+            player.is_impostor = True
+        players.append(player)
+    
     # Starting player threads
     for player in players:
         player.start()
