@@ -135,17 +135,6 @@ Wprowadź zadania, które wymagają współpracy wielu graczy do ukończenia.
 Na przykład, jeden gracz może musieć włączyć zasilanie, 
 a inny musi ustawiać przełączniki, aby to osiągnąć.
 
-Zadania dynamiczne: 
-Utwórz mechanizm, który generuje nowe zadania dynamicznie w trakcie gry. 
-Na przykład, po zakończeniu jednego zadania, 
-może pojawić się kolejne losowo wybrane zadanie.
-
-Debaty i głosowania: 
-Implementuj system, który umożliwia graczom debatowanie 
-na temat podejrzanych graczy i głosowanie na ich wykluczenie. 
-Możesz użyć semaforów lub innych mechanizmów synchronizacji do zapewnienia, 
-że tylko jeden gracz mówi w danym czasie.
-
 Interaktywne zadania: 
 Dodaj zadania, które wymagają interakcji z graczami, 
 takie jak przekazywanie przedmiotów lub 
@@ -154,8 +143,4 @@ wykonywanie określonych czynności w określonym czasie.
 Szczegółowe raportowanie: 
 Utwórz mechanizm raportowania, który umożliwia graczom 
 raportowanie podejrzanych zachowań lub zdarzeń, które mogą wskazywać na obecność intruzów.
-
-
-Drugi impostor
-Duch pierwszego zabitego impostora pomaga w sabotowaniu
 '''
