@@ -35,5 +35,6 @@ Autor: Kinga Foksińska, nr 255591, grupa: wtorek nieparzysty 9:15
 
 
 Przykładowy wynik działania symulacji na dzień 22.04.2024:
-![image](https://github.com/Foksina/Systemy-operacyjne-2-projekt/assets/106610411/376af359-cfea-457a-b78b-e414a4e5d371)
+![image](https://github.com/Foksina/Systemy-operacyjne-2-projekt/assets/106610411/4978d5c1-a5b8-4010-9274-5b6610e279b2)
+
 
