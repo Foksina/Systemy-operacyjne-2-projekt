@@ -16,6 +16,24 @@ Będą dostępne różne zadania, jak naprawa systemów, czy przeszukiwanie stac
 
 3. Wykrywanie i eliminacja intruzów
 
-Odbywać będą się debaty i głosowania na potencjalnych intruzów. Gracze mogą próbować odkryć tożsamość intruzów na podstawie ich działań lub zgromadzonych dowodów. Wątki będą odpowiedzialne za gromadzenie i wymianę informacji, a synchronizacja pomoże uniknąć konfliktów w trakcie analizy danych.
+Odbywać będą się głosowania na potencjalnych intruzów. 
 
 Autor: Kinga Foksińska, nr 255591, grupa: wtorek nieparzysty 9:15
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Przykładowy wynik działania symulacji na dzień 22.04.2024:
+![image](https://github.com/Foksina/Systemy-operacyjne-2-projekt/assets/106610411/376af359-cfea-457a-b78b-e414a4e5d371)
+
