@@ -4,19 +4,20 @@ import queue
 import time
 
 class Player(threading.Thread):
-    def __init__(self, name, game_over_flag):
+    def __init__(self, name):
         threading.Thread.__init__(self)
         self.name = name
         self.task = None
         self.position = (random.randint(0, map_size[0] - 1), random.randint(0, map_size[1] - 1))
-        self.is_alive = True
+        self.is_alive = threading.Event()
+        self.is_alive.set()
         self.move_time = 1
-        self.game_over_flag = game_over_flag
+        self.votes = 0
 
     def run(self):
-        while self.is_alive and not self.game_over_flag.is_set():
+        while self.is_alive.is_set() and not game_over.is_set() and not task_queue.empty():
             # Players receive their tasks and complete them
-            while not task_queue.empty():
+            if self in players:
                 self.task = task_queue.get()
                 self.task.is_occupied = True
                 print(f"{self.name} is moving to task location: {self.task.location}")
@@ -25,9 +26,6 @@ class Player(threading.Thread):
                 time.sleep(self.task.time_to_perform)  # Time to perform the task
                 print(f"{self.name} has completed task: {self.task.name}")
                 task_queue.task_done()
-    
-    def stop(self):
-        self.is_alive = False
     
     def move_to(self, target):
         while self.position != target:
@@ -44,22 +42,32 @@ class Player(threading.Thread):
             self.position = (x, y)
             time.sleep(self.move_time)  # Time to move
 
+    def vote_for_suspect(self):
+        global players
+        all_players = players.copy()
+        all_players.append(impostor)
+        suspect = random.choice(all_players)
+        while suspect == self:
+            suspect = random.choice(all_players)
+        suspect.vote()
+
+    def vote(self):
+        self.votes += 1
+
 class Impostor(Player):
-    def __init__(self, name, game_over_flag):
-        super().__init__(name, game_over_flag)
+    def __init__(self, name):
+        super().__init__(name)
         self.move_time = 0.5
     
     def run(self):
-        while not self.game_over_flag.is_set():
+        while not game_over.is_set() and len(players)>0:
             # Impostor has a chance to kill another player or sabotage a task
-            if not sabotage_task_queue.empty():
+            while not sabotage_task_queue.empty():
                 action = random.choice(["kill", "sabotage"])
                 if action == "kill":
                     self.kill()
                 else:
                     self.sabotage()
-            else:
-                self.kill()
         
     def kill(self):
         target = random.choice([player for player in players])
@@ -68,8 +76,7 @@ class Impostor(Player):
         print(f"{self.name} is killing {target.name} at location: {target.position}")
         players.remove(target)
         print(f"{target.name} has been killed!")
-        target.stop()
-        target.join()
+        target.is_alive.clear()
 
     def sabotage(self):
         self.task = sabotage_task_queue.get()
@@ -86,13 +93,47 @@ class Task():
         self.time_to_perform = random.randint(1, 5)
         self.location = (random.randint(0, map_size[0] - 1), random.randint(0, map_size[1] - 1))
 
-def end(task_queue, players, game_over):
+def end(task_queue, players, impostor, impostor_is_eliminated):
+    global game_over
     while True:
-        if not players or task_queue.empty():
+        if not players or task_queue.empty() or impostor_is_eliminated.is_set():
             game_over.set()
+
+            for player in players:
+                player.is_alive.clear()
+        
+            impostor.is_alive.clear()  
+
+            for player in players:
+                player.join()   
+
+            impostor.join()
+
             break
         time.sleep(1)
 
+def voting_phase(players, impostor, impostor_is_eliminated):
+    time.sleep(5)
+    while not game_over.is_set():
+        print("Time for voting...")
+        for player in players:
+            if player.is_alive.is_set():
+                player.vote_for_suspect()
+        impostor.vote_for_suspect()
+
+        eliminate_player(players, impostor, impostor_is_eliminated)
+
+        time.sleep(7)
+
+def eliminate_player(players, impostor, impostor_is_eliminated):
+    all_players = players.copy()
+    all_players.append(impostor)
+    max_votes_player = max(all_players, key=lambda x: x.votes)  
+    print(f"{max_votes_player.name} is eliminated!")
+    if (max_votes_player == impostor):
+        impostor_is_eliminated.set()
+    else:
+        max_votes_player.is_alive.clear()
 
 def main():
     #global variables
@@ -101,6 +142,8 @@ def main():
     global sabotage_task_queue
     global players
     global game_over
+    global impostor
+    global impostor_is_eliminated
 
     map_size = (50, 50)
 
@@ -126,14 +169,18 @@ def main():
 
     for i in range(number_of_players-1):
         name = f"Player-{i+1}" 
-        player = Player(name, game_over)
+        player = Player(name)
         players.append(player)
     
-    impostor = Impostor("Impostorrr", game_over)
+    impostor = Impostor("Impostorrr")
+    impostor_is_eliminated = threading.Event()
+    voting = threading.Thread(target=voting_phase, args=(players, impostor, impostor_is_eliminated))
 
     # Control the end of game
-    game_over_thread = threading.Thread(target=end, args=(task_queue, players, game_over))
+    game_over_thread = threading.Thread(target=end, args=(task_queue, players, impostor, impostor_is_eliminated))
     game_over_thread.start()
+
+    voting.start()
 
     # Starting player and impostor threads
     for player in players:
@@ -141,15 +188,12 @@ def main():
     impostor.start()
 
     game_over_thread.join()
-
-    for player in players:
-        player.join()
-    impostor.join()
-
+    voting.join()
     if(task_queue.empty()):
         print("Players WON!")
     else:
         print("Impostor WON!")
+
 
 if __name__ == "__main__":
     main()
