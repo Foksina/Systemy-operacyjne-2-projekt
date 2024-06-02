@@ -48,6 +48,11 @@ Koniec gry następuje w trzech możliwych sytuacjach. Śmierć Impostora (wygran
 * Wątek odpowiedzialny za rysowanie planszy - display_thread.
 
 ### Sekcje krytyczne
+* task_queue_lock - muteks do zarządzania pobieraniem oraz dodawaniem zadań z i do kolejki.
+* sabotage_task_queue_lock - muteks do zarządzanie pobieraniem zadań z kolejki impostora (w przypadku gry dla dwóch impostorów).
+* players_lock - muteks do zarządzania listą żyjących graczy (z listy korzystają wątki: Impostora, głosowań i końca gry). Użyto RLock zamiast Lock, ponieważ Rlock pozwala na wielokrotne zablokowanie przez ten sam wątek, co jest przydatne w sytuacjach, gdy wiele wątków chce uzyskać dostęp do listy w trybie odczytu (np. wątek głosowań i końca gry), jednocześnie gwarantując, że tylko jeden wątek może modyfikować listę w danym czasie (eliminacja gracza).
+* task_semaphore - semafor, który ogranicza liczbę graczy wykonujących jednocześnie operacje na kolejce zadań.
+* condition - muteks w postaci warunku, któy pozwala wątkowi głosowań na czekanie na gotowość wszystkich graczy.
 
 ## Autor
 Autor: Kinga Foksińska, nr 255591, grupa: wtorek nieparzysty 9:15
