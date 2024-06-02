@@ -1,11 +1,31 @@
 # Systemy-operacyjne-2-projekt
 Projekt realizowany w ramach kursu Systemy operacyjne 2.
 
-Temat projektu: Symulator gry opartej na koncepcji "Among us"
+## Table of contents
+* [Temat projektu](#temat-projektu)
+* [Opis projektu](#opis-projektu)
+* [Wynik działania programu](#wynik-działania-programu)
+* [Spis wątków i sekcji krytycznych](#spis-wątków-i-sekcji-krytycznych)
+* [Wątki](#wątki)
+* [Sekcje krytyczne](#sekcje-krytyczne)
 
-Opis: Symulacja gry, w której gracze współpracują przy rozwiązywaniu zadań, jednocześnie starając się odkryć i wyeliminować oszusta.
+* [Autor](#autor)
 
-Podstawowe założenia:
+## Temat projektu
+Symulator gry opartej na koncepcji "Among us"
+
+## Opis projektu
+Projekt to symulacja gry, w której gracze współpracują przy rozwiązywaniu zadań, jednocześnie starając się odkryć i wyeliminować oszusta.
+
+## Wynik działania programu
+
+## Spis wątków i sekcji krytycznych
+### Wątki
+### Sekcje krytyczne
+
+## Autor
+Autor: Kinga Foksińska, nr 255591, grupa: wtorek nieparzysty 9:15
+
 1. Zarządzanie graczami
 
 Wątki reprezentujące poszczególnych graczy będą odpowiedzialne za sterowanie postaciami i wysyłanie informacji o swoich działaniach. Dodatkowo wątki reprezentujące intruzów będą próbowały utrudnić załodze wykonywanie zadań oraz fałszywie oskarżać niewinnych.
@@ -17,25 +37,4 @@ Będą dostępne różne zadania, jak naprawa systemów, czy przeszukiwanie stac
 3. Wykrywanie i eliminacja intruzów
 
 Odbywać będą się głosowania na potencjalnych intruzów. 
-
-Autor: Kinga Foksińska, nr 255591, grupa: wtorek nieparzysty 9:15
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Przykładowy wynik działania symulacji na dzień 22.04.2024:
-![image](https://github.com/Foksina/Systemy-operacyjne-2-projekt/assets/106610411/4978d5c1-a5b8-4010-9274-5b6610e279b2)
-
-![image](https://github.com/Foksina/Systemy-operacyjne-2-projekt/assets/106610411/f44362da-5407-46e4-bb1f-14fdb78e29a5)
 
