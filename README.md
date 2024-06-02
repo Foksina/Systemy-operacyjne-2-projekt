@@ -9,7 +9,7 @@ Projekt realizowany w ramach kursu Systemy operacyjne 2.
 * [Autor](#autor)
 
 ## Temat projektu
-Symulator gry opartej na koncepcji "Among us"
+Tematem projektu jest symulator gry opartej na koncepcji "Among us".
 
 ## Opis projektu
 Projekt to symulacja gry, w której gracze współpracują przy rozwiązywaniu zadań, jednocześnie starając się odkryć i wyeliminować oszusta. Spełnia on poniższe funkcjonalności:
