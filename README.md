@@ -29,10 +29,12 @@ Wątek reprezentujący intruza (dziedziczący po klasie gracza) ma na celu uniem
 
 Dostępne są różne zadania dla graczy, część z nich wymaga współpracy kilku graczy do ich ukończenia. Ukończenie wszystkich zadań z gry jest równoznaczne wygraniu Graczy.
 
-* Wykrywanie i eliminacja intruzów]
+* Wykrywanie i eliminacja intruzów
+  
 Kilka razy w ciągu rozgrywki odbywają sie głosowania. Każdy żyjący gracz i impostor głosują randomowo na innego gracza (przy czym zakazane jest głosowanie na samego siebie). Gracz z największa ilością głosów zostaje wyeliminowany z gry.
 
 * Koniec gry
+
 Koniec gry następuje w trzech możliwych sytuacjach. Śmierć Impostora (wygrana graczy), ukończenie wszystkich zadań z listy (wygrana graczy), eliminacja wszystkich graczy poprzez głosowania lub zabicie przez Impostora (wygrana intruza).
 
 ## Wynik działania programu
