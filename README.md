@@ -18,9 +18,11 @@ Projekt to symulacja gry, w której gracze współpracują przy rozwiązywaniu z
 Wątki reprezentujące poszczególnych graczy będą odpowiedzialne za sterowanie postaciami i wysyłanie informacji o swoich działaniach. Dodatkowo wątki reprezentujące intruzów będą próbowały utrudnić załodze wykonywanie zadań oraz fałszywie oskarżać niewinnych.
 
 * Zadania do wykonania
+
 Będą dostępne różne zadania, jak naprawa systemów, czy przeszukiwanie stacji - gracze muszą współpracować, aby je ukończyć. Wątki graczy mogą być synchronizowane, aby uniknąć kolizji podczas wykonywania tych samych zadań.
 
 * Wykrywanie i eliminacja intruzów
+
 Odbywać będą się głosowania na potencjalnych intruzów. 
 
 ## Wynik działania programu
