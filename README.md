@@ -38,6 +38,20 @@ Kilka razy w ciągu rozgrywki odbywają sie głosowania. Każdy żyjący gracz i
 Koniec gry następuje w trzech możliwych sytuacjach. Śmierć Impostora (wygrana graczy), ukończenie wszystkich zadań z listy (wygrana graczy), eliminacja wszystkich graczy poprzez głosowania lub zabicie przez Impostora (wygrana intruza).
 
 ## Wynik działania programu
+Przykładowy wygląd aplikacji okienkowej:
+![image](https://github.com/Foksina/Systemy-operacyjne-2-projekt/assets/106610411/53bfe9d5-5147-4f3c-8c2e-65c8ca7e5559)
+![image](https://github.com/Foksina/Systemy-operacyjne-2-projekt/assets/106610411/054e2def-3f81-437e-bcee-65f859f8f14f)
+
+Legenda:
+* szare obrysy - ściany pokoi,
+* żółte kwadraty - zadania do wykonania,
+* niebieskie kółka - gracze,
+* czerwone kółko - intruz.
+
+Przykładowe wyniki działania na konsoli:
+![image](https://github.com/Foksina/Systemy-operacyjne-2-projekt/assets/106610411/2755a14b-3246-4e42-8f03-170677dc4350)
+![image](https://github.com/Foksina/Systemy-operacyjne-2-projekt/assets/106610411/0da386e7-f731-4b34-a72c-cb98ec783226)
+
 
 ## Spis wątków i sekcji krytycznych
 ### Wątki
