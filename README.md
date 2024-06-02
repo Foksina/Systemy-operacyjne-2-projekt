@@ -69,6 +69,7 @@ Przykładowe wyniki działania na konsoli:
 * players_lock - muteks do zarządzania listą żyjących graczy (z listy korzystają wątki: Impostora, głosowań i końca gry). Użyto RLock zamiast Lock, ponieważ Rlock pozwala na wielokrotne zablokowanie przez ten sam wątek, co jest przydatne w sytuacjach, gdy wiele wątków chce uzyskać dostęp do listy w trybie odczytu (np. wątek głosowań i końca gry), jednocześnie gwarantując, że tylko jeden wątek może modyfikować listę w danym czasie (eliminacja gracza).
 * task_semaphore - semafor, który ogranicza liczbę graczy wykonujących jednocześnie operacje na kolejce zadań.
 * condition - muteks w postaci warunku, któy pozwala wątkowi głosowań na czekanie na gotowość wszystkich graczy.
+* impostor_is_eliminated_lock - muteks do zarządzania flagą impostora (używany przez wątek głosowań i końca gry).
 
 ## Autor
 Autor: Kinga Foksińska, nr 255591, grupa: wtorek nieparzysty 9:15
