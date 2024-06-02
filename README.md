@@ -14,9 +14,12 @@ Symulator gry opartej na koncepcji "Among us"
 ## Opis projektu
 Projekt to symulacja gry, w której gracze współpracują przy rozwiązywaniu zadań, jednocześnie starając się odkryć i wyeliminować oszusta. Spełnia on poniższe funkcjonalności:
 * Zarządzanie graczami
+  
 Wątki reprezentujące poszczególnych graczy będą odpowiedzialne za sterowanie postaciami i wysyłanie informacji o swoich działaniach. Dodatkowo wątki reprezentujące intruzów będą próbowały utrudnić załodze wykonywanie zadań oraz fałszywie oskarżać niewinnych.
+
 * Zadania do wykonania
 Będą dostępne różne zadania, jak naprawa systemów, czy przeszukiwanie stacji - gracze muszą współpracować, aby je ukończyć. Wątki graczy mogą być synchronizowane, aby uniknąć kolizji podczas wykonywania tych samych zadań.
+
 * Wykrywanie i eliminacja intruzów
 Odbywać będą się głosowania na potencjalnych intruzów. 
 
